@@ -11,4 +11,4 @@ _Create your own BINGO cards from any list of words, phrases, or numbers._
 > May need to adjust print scale or margins in printer settings depending on your printer.
 
 > [!NOTE]
-> Only tested in Chrome on Windows.
+> Only tested in Chrome and Edge browsers on Windows.
