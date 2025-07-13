@@ -11,11 +11,13 @@ var bingoItems;
 var InputFile;
 var fileContent;
 var msgDisplay;
+var bgimage;
 
 window.onload = function() {
 	InputFile = document.getElementById("inputfile");
 	fileContent = document.getElementById("textList");
 	msgDisplay = document.getElementById("fileerror");
+	bgimage = document.getElementById("bgimage")
 	InputFile.addEventListener("change", handleFile);
 }
 
@@ -53,6 +55,13 @@ function displayBingoCard(roundName = "") {
     const cardContainer = document.getElementById("bingo-card");
 
     const table = document.createElement('table');
+	
+	
+	if(bgimage.checked){
+		table.className="bg";
+	}
+	
+	
 
     card.forEach(row => {
         const tr = document.createElement('tr');
@@ -101,11 +110,13 @@ function genBingoCards(){
 		throw new Error("Minimum of 1 card required.");
 	}
 	
-	roundName = document.getElementById('roundTitle').value
+	roundName = document.getElementById('cardTitle').value
 	
 	for (let i = 0; i < numCards; i++) {
 		displayBingoCard(roundName);
 	}
+	
+		
 
 }
 
@@ -159,12 +170,22 @@ function showMessage(message, type) {
 	label {font-family: sans-serif;}
 	#bingo-card td {width: 123px; height: 83px; padding: 0 5px 0 5px;}
 	#bingo-card td p {display: block; font-size: 1em;}
-	#bingo-card table {table-layout: fixed; margin-top: 0;  margin-bottom: 0; margin-left: 30px; border-collapse: collapse; break-inside: avoid; background-size: 30%; background-image: url("logo.png"); background-color: rgba(255,255,255,0.92);background-blend-mode: lighten;}
+	#bingo-card table {table-layout: fixed; margin-top: 0;  margin-bottom: 0; margin-left: 30px; border-collapse: collapse; break-inside: avoid;}
+	#bingo-card table.bg {background-size: 30%; background-image: url("logo.png"); background-color: rgba(255,255,255,0.92);background-blend-mode: lighten;}
+	
+	/* Spacing for every other card */
 	#bingo-card table:nth-child(2n) {margin-top: 60px;  margin-bottom: 0;}
-	#bingo-card table tr:nth-child(4) td:nth-child(3) {background-color: #666; color: #fff; font-weight: bold; text-shadow: 0px 0px 6px #000;  -webkit-text-stroke: 0;}
+		
+	/* All Squares */
 	#bingo-card tr, td {word-break: break-word; font-family: sans-serif; border: 1px solid #000; text-align: center; border-collapse: collapse; text-shadow: 0px 0px 5px #fff; paint-order: stroke fill; -webkit-text-stroke: 4px #fff;  }
-	#bingo-card table tr:nth-child(1) td, #bingo-card table tr:nth-child(7) td  {height: 23px; background-color: #666; color: #fff; font-weight: bold; text-shadow: 0px 0px 6px #000; font-style: italic; -webkit-text-stroke: 0;}
-	.buttons {padding: 5px 15px 5px 15px;}
+	
+	/* Center Square */
+	#bingo-card table tr:nth-child(4) td:nth-child(3) {background-color: #666; color: #fff; font-weight: bold; text-shadow: 0px 0px 6px #000;  -webkit-text-stroke: 0;}
+	
+	/* Title */
+	#bingo-card table tr:nth-child(1) td {height: 23px; background-color: #666; color: #fff; font-weight: bold; text-shadow: 0px 0px 6px #000; font-style: italic; -webkit-text-stroke: 0;}
+	
+	.buttons {padding: 5px 15px 5px 15px; box-shadow: 2px 2px 5px 0  rgba(0,0,0,0.5);}
 
 	@media print {
 	   .noPrint {display:none;}
@@ -181,8 +202,11 @@ function showMessage(message, type) {
 		<label for="numcards">Number of Cards:</label>
 		<input type="number" id="numcards" name="numcards" value="50" min="1" max="200" required><br/><br/>
 		
-		<label for="numcards">Round Title:</label>
-		<input type="text" id="roundTitle" name="roundTitle" size=44><br/><br/>
+		<label for="numcards">Title:</label>
+		<input type="text" id="cardTitle" name="cardTitle" size=44><br/><br/>
+		
+		<label for="bgimage">Background Image:</label>
+		<input type="checkbox" id="bgimage" name="bgimage" checked><br/><br/>
 		
 		<label for="file-input">Item List:</label>
 		<input type="file" id="inputfile" />
@@ -193,6 +217,9 @@ function showMessage(message, type) {
 		<br/><br/>
 		<button type="button" value="Generate Cards" onclick="genBingoCards();" class="buttons">Generate Cards</button>
 		<button type="button" value="Print" onclick="window.print();" class="buttons" style="margin-left: 30px;">Print</button>
+		
+		
+		<!-- document.querySelectorAll('#bingo-card table').forEach((item) => item.style.backgroundImage = 'none'); -->
 		
 		
 	</form>
