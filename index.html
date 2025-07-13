@@ -13,8 +13,11 @@ var fileContent;
 var msgDisplay;
 var bgimage;
 
+var roundName;
+
 window.onload = function() {
 	InputFile = document.getElementById("inputfile");
+	roundName = document.getElementById('cardTitle');
 	fileContent = document.getElementById("textList");
 	msgDisplay = document.getElementById("fileerror");
 	bgimage = document.getElementById("bgimage")
@@ -110,10 +113,9 @@ function genBingoCards(){
 		throw new Error("Minimum of 1 card required.");
 	}
 	
-	roundName = document.getElementById('cardTitle').value
 	
 	for (let i = 0; i < numCards; i++) {
-		displayBingoCard(roundName);
+		displayBingoCard(roundName.value);
 	}
 	
 		
@@ -134,10 +136,14 @@ function handleFile(event) {
 		return;
 	}
 
-	if (!file.type.startsWith("text")) {
-		showMessage("File type not supported. Please select a text file.", "error");
+	if (!file.type.startsWith("text/plain")) {
+		showMessage("File type not supported. Please select a plain text file.", "error");
 		return;
 	}
+	
+	roundName.value = file.name.replace(/(\.\w+)+$/,"");
+	
+	
 
 	// Read the file
 	const reader = new FileReader();
