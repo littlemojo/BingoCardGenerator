@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>Bingo Card Generator 2000</title>
-<script>
+<script type="application/javascript">
 
 var roundName = "";
 var bingoItemsList;
@@ -10,16 +10,16 @@ var bingoItems;
 
 var InputFile;
 var fileContent;
-var messageDisplay;
+var msgDisplay;
 
 window.onload = function() {
 	InputFile = document.getElementById("inputfile");
 	fileContent = document.getElementById("textList");
-	messageDisplay = document.getElementById("fileerror");
+	msgDisplay = document.getElementById("fileerror");
 	InputFile.addEventListener("change", handleFile);
 }
 
-function generateBingoCard(items, rows = 5, cols = 5) {
+function genBingoCard(items, rows = 5, cols = 5) {
 
 	if (items.length < rows * cols) {
 		document.getElementById('countList').innerHTML = "Minimum of " + (rows * cols) + " items required.";
@@ -46,10 +46,11 @@ function generateBingoCard(items, rows = 5, cols = 5) {
 	return card;
 }
 
+
 function displayBingoCard(roundName = "") {
 
-	const card = generateBingoCard(bingoItems,5,5);
-    const container = document.getElementById("bingo-card");
+	const card = genBingoCard(bingoItems,5,5);
+    const cardContainer = document.getElementById("bingo-card");
 
     const table = document.createElement('table');
 
@@ -72,7 +73,7 @@ function displayBingoCard(roundName = "") {
     });
 
 	table.innerHTML = "<tr><td colspan=5>" + roundName + "</td></tr>" + table.innerHTML + "";
-    container.appendChild(table);
+    cardContainer.appendChild(table);
 }
 
 
@@ -86,30 +87,27 @@ function loadItemsList(){
 
 }
 
+
 function genBingoCards(){
 
 	document.getElementById("bingo-card").innerHTML = "";
 
 	loadItemsList();
 	
-	var cardnum = document.getElementById('numcards').value;
-	
-	cardnum
-	
-	if (cardnum < 1) {
+	var numCards = document.getElementById('numcards').value;
+		
+	if (numCards < 1) {
 		document.getElementById('countList').innerHTML = "Minimum of 1 card required.";
 		throw new Error("Minimum of 1 card required.");
 	}
 	
 	roundName = document.getElementById('roundTitle').value
 	
-
-	for (let i = 0; i < cardnum; i++) {
+	for (let i = 0; i < numCards; i++) {
 		displayBingoCard(roundName);
 	}
 
 }
-
 
 
 function handleFile(event) {
@@ -117,7 +115,7 @@ function handleFile(event) {
 	
 	//Clear content
 	fileContent.textContent = ""; 
-	messageDisplay.textContent = "";
+	msgDisplay.textContent = "";
 
 	//Validate file
 	if (!file) {
@@ -126,32 +124,36 @@ function handleFile(event) {
 	}
 
 	if (!file.type.startsWith("text")) {
-		showMessage("Unsupported file type. Please select a text file.", "error");
+		showMessage("File type not supported. Please select a text file.", "error");
 		return;
 	}
 
 	// Read the file
 	const reader = new FileReader();
+	
+	// Load the contents of the file into the text field
 	reader.onload = () => {
-	fileContent.textContent = reader.result;
-	loadItemsList();
+		fileContent.textContent = reader.result;
+		loadItemsList();
 	};
+	
 	reader.onerror = () => {
-	showMessage("Error reading the file. Please try again.", "error");
+		showMessage("Error reading the file. Please try again.", "error");
 	};
+
+	// Read File
 	reader.readAsText(file);
 }
 
-// Displays a message to the user
+// Displays error message
 function showMessage(message, type) {
-	messageDisplay.textContent = message;
-	messageDisplay.style.color = type === "error" ? "red" : "green";
+	msgDisplay.textContent = message;
+	msgDisplay.style.color = type === "error" ? "red" : "green";
 }
 
 </script>
 
-<style>
-	
+<style type="text/css">
 
 	h1 {color: #fff; font-family: sans-serif; font-style: italic;font-variant: small-caps; border-bottom: 1px solid black; text-shadow: -3px -3px 6px #008ab7, 3px 3px 6px #00ad72;}
 	label {font-family: sans-serif;}
@@ -162,6 +164,7 @@ function showMessage(message, type) {
 	#bingo-card table tr:nth-child(4) td:nth-child(3) {background-color: #666; color: #fff; font-weight: bold; text-shadow: 0px 0px 6px #000;  -webkit-text-stroke: 0;}
 	#bingo-card tr, td {word-break: break-word; font-family: sans-serif; border: 1px solid #000; text-align: center; border-collapse: collapse; text-shadow: 0px 0px 5px #fff; paint-order: stroke fill; -webkit-text-stroke: 4px #fff;  }
 	#bingo-card table tr:nth-child(1) td, #bingo-card table tr:nth-child(7) td  {height: 23px; background-color: #666; color: #fff; font-weight: bold; text-shadow: 0px 0px 6px #000; font-style: italic; -webkit-text-stroke: 0;}
+	.buttons {padding: 5px 15px 5px 15px;}
 
 	@media print {
 	   .noPrint {display:none;}
@@ -188,8 +191,9 @@ function showMessage(message, type) {
 		<br/>
 		<label id="countList"></label>
 		<br/><br/>
+		<button type="button" value="Generate Cards" onclick="genBingoCards();" class="buttons">Generate Cards</button>
+		<button type="button" value="Print" onclick="window.print();" class="buttons" style="margin-left: 30px;">Print</button>
 		
-		<button type="button" form="form1" value="Generate Cards" onclick="genBingoCards();">Generate Cards</button>
 		
 	</form>
 
