@@ -172,7 +172,7 @@ function showMessage(message, type) {
 
 <style type="text/css">
 
-	h1 {color: #fff; font-family: sans-serif; font-style: italic;font-variant: small-caps; border-bottom: 1px solid black; text-shadow: -3px -3px 6px #008ab7, 3px 3px 6px #00ad72;}
+	h1 {color: #fff; font-family: sans-serif; font-style: italic;font-variant: small-caps; text-shadow: -3px -3px 6px #008ab7, 3px 3px 6px #00ad72; margin-top: 0;}
 	label {font-family: sans-serif;}
 	#bingo-card td {width: 123px; height: 83px; padding: 0 5px 0 5px;}
 	#bingo-card td p {display: block; font-size: 1em;}
@@ -193,6 +193,17 @@ function showMessage(message, type) {
 	
 	.buttons {padding: 5px 15px 5px 15px; box-shadow: 2px 2px 5px 0  rgba(0,0,0,0.5);}
 
+
+	.mainbox {
+			border: 1px solid #62a392;
+			width: 460px;
+			padding: 15px;
+			margin-bottom: 20px;
+			background-color: #d0e3de;
+			border-radius: 20px;
+			box-shadow: 4px 4px 8px 0  rgba(0,0,0,0.3);
+	}
+
 	@media print {
 	   .noPrint {display:none;}
 	   body {margin: 0; padding: 0;}
@@ -201,28 +212,30 @@ function showMessage(message, type) {
 </style>
 
 </head>
-<body><div class="noPrint">
+<body><div class="noPrint mainbox">
 
 	<h1>Bingo Card Generator 2000</h1>
 	<form>
 		<label for="numcards">Number of Cards:</label>
-		<input type="number" id="numcards" name="numcards" value="50" min="1" max="200" required><br/><br/>
+		<input type="number" id="numcards" name="numcards" value="50" min="1" max="200" style="font-size: 1em;" required><br/><br/>
 		
 		<label for="numcards">Title:</label>
-		<input type="text" id="cardTitle" name="cardTitle" size=44><br/><br/>
+		<input type="text" id="cardTitle" name="cardTitle" size=46 style="font-size: 1em;"><br/><br/>
 		
 		<label for="bgimage">Background Image:</label>
 		<input type="checkbox" id="bgimage" name="bgimage" checked><br/><br/>
 		
 		<label for="file-input">Item List:</label>
-		<input type="file" id="inputfile" />
+		<input type="file" id="inputfile" style="margin-left: 6px; margin-bottom: 3px;" />
 		<div id="fileerror"></div>
-		<textarea id="textList" name="textList" rows="15" cols="55" wrap="off"></textarea>
+		<textarea id="textList" name="textList" rows="15" cols="59" wrap="off"></textarea>
 		<br/>
 		<label id="countList"></label>
 		<br/><br/>
-		<button type="button" value="Generate Cards" onclick="genBingoCards();" class="buttons">Generate Cards</button>
-		<button type="button" value="Print" onclick="window.print();" class="buttons" style="margin-left: 30px;">Print</button>
+		<div style="text-align: center;">
+			<button type="button" value="Generate Cards" onclick="genBingoCards();" class="buttons">Generate Cards</button>
+			<button type="button" value="Print" onclick="window.print();" class="buttons" style="margin-left: 30px;">Print</button>
+		</div>
 		
 		
 		<!-- document.querySelectorAll('#bingo-card table').forEach((item) => item.style.backgroundImage = 'none'); -->
