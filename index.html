@@ -12,6 +12,7 @@ var InputFile;
 var fileContent;
 var msgDisplay;
 var bgimage;
+var freespace;
 
 var roundName;
 
@@ -20,7 +21,8 @@ window.onload = function() {
 	roundName = document.getElementById('cardTitle');
 	fileContent = document.getElementById("textList");
 	msgDisplay = document.getElementById("fileerror");
-	bgimage = document.getElementById("bgimage")
+	bgimage = document.getElementById("bgimage");
+	freespace = document.getElementById("freespace");
 	InputFile.addEventListener("change", handleFile);
 }
 
@@ -43,11 +45,15 @@ function genBingoCard(items, rows = 5, cols = 5) {
 		card.push(row);
 	}
 	
+	
 	const centerRow = Math.floor(rows / 2);
 	const centerCol = Math.floor(cols / 2);
 	
-	card[centerRow][centerCol] = "Free Space";
-	
+	// Show Free Space if checked
+	if(freespace.checked){
+		card[centerRow][centerCol] = "Free Space";
+	}
+
 	return card;
 }
 
@@ -63,8 +69,6 @@ function displayBingoCard(roundName = "") {
 	if(bgimage.checked){
 		table.className="bg";
 	}
-	
-	
 
     card.forEach(row => {
         const tr = document.createElement('tr');
@@ -72,12 +76,18 @@ function displayBingoCard(roundName = "") {
             const td = document.createElement('td');
 			const p = document.createElement('p');
             
+			// Trim Title
 			if(cell.length > 50){
 				p.textContent = cell.substring(0, 50).trimEnd() + "...";
 			} else {
 				p.textContent = cell;
 			}
-				
+
+			// Add CSS class for Free Space
+			if(cell == 'Free Space'){
+				td.className="CenterSquare";
+			}
+
 			td.appendChild(p);
 			tr.appendChild(td);
         });
@@ -117,8 +127,6 @@ function genBingoCards(){
 	for (let i = 0; i < numCards; i++) {
 		displayBingoCard(roundName.value);
 	}
-	
-		
 
 }
 
@@ -184,10 +192,11 @@ function showMessage(message, type) {
 		
 	/* All Squares */
 	#bingo-card tr, td {word-break: break-word; font-family: sans-serif; border: 1px solid #000; text-align: center; border-collapse: collapse; text-shadow: 0px 0px 5px #fff; paint-order: stroke fill; -webkit-text-stroke: 4px #fff;  }
-	
+
 	/* Center Square */
-	#bingo-card table tr:nth-child(4) td:nth-child(3) {background-color: #666; color: #fff; font-weight: bold; text-shadow: 0px 0px 6px #000;  -webkit-text-stroke: 0;}
-	
+	#bingo-card td.CenterSquare {background-color: #666; color: #fff; font-weight: bold; text-shadow: 0px 0px 6px #000; -webkit-text-stroke: 0;}
+
+
 	/* Title */
 	#bingo-card table tr:nth-child(1) td {height: 23px; background-color: #666; color: #fff; font-weight: bold; text-shadow: 0px 0px 6px #000; font-style: italic; -webkit-text-stroke: 0;}
 	
@@ -224,6 +233,9 @@ function showMessage(message, type) {
 		
 		<label for="bgimage">Background Image:</label>
 		<input type="checkbox" id="bgimage" name="bgimage" checked><br/><br/>
+		
+		<label for="freespace">Free Space:</label>
+		<input type="checkbox" id="freespace" name="freespace" checked><br/><br/>
 		
 		<label for="file-input">Item List:</label>
 		<input type="file" id="inputfile" style="margin-left: 6px; margin-bottom: 3px;" />
